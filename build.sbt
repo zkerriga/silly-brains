@@ -1,14 +1,26 @@
-val scala3Version = "3.3.1"
+ThisBuild / scalaVersion := "3.3.1"
 
 lazy val root = project
   .in(file("."))
+  .aggregate(`silly-brains`.js, `silly-brains`.jvm)
   .settings(
-    name         := "silly-brains",
-    version      := "0.1.0-SNAPSHOT",
-    scalaVersion := scala3Version,
+    publish      := {},
+    publishLocal := {},
+  )
+
+lazy val `silly-brains` = crossProject(JSPlatform, JVMPlatform)
+  .in(file("."))
+  .settings(
+    name    := "silly-brains",
+    version := "0.1.0-SNAPSHOT",
+  )
+  .jvmSettings(
+    // Add JVM-specific settings here
+  )
+  .jsSettings(
+    // Add JS-specific settings here
+    scalaJSUseMainModuleInitializer := true,
     libraryDependencies ++= Seq(
-      // "org.typelevel" %% "cats-core" % "2.10.0",
-      "ai.dragonfly"  %% "slash"     % "0.1",
-      "org.scalameta" %% "munit"     % "0.7.29" % Test,
+      "io.github.pityka" %%% "nspl-canvas-js" % "0.10.0"
     ),
   )
